@@ -1,16 +1,18 @@
 import React from 'react';
+import { connect } from 'react-redux';
+
 import AlertBanner from '../alertBanner';
 import SiteListItem from './siteListItem';
 import LinkButton from '../linkButton';
 import LoadingIndicator from '../loadingIndicator';
 
 const propTypes = {
-  storeState: React.PropTypes.object
+  storeState: React.PropTypes.object,
 };
 
 const getSites = (sitesState) => {
-  if (sitesState.isLoading) {
-    return <LoadingIndicator/>
+  if (sitesState.isLoading || !sitesState.data) {
+    return <LoadingIndicator />;
   }
 
   if (!sitesState.data.length) {
@@ -26,15 +28,13 @@ const getSites = (sitesState) => {
     <div className="usa-grid">
       <h2>Websites</h2>
       <ul className="sites-list">
-        {sitesState.data.map((site, index) => {
-            return <SiteListItem key={ index } site={ site } />
-        })}
+        {sitesState.data.map((site, index) => <SiteListItem key={index} site={site} />)}
       </ul>
     </div>
   );
-}
+};
 
-const SiteList = ({ storeState }) =>
+export const SiteList = ({ storeState }) =>
   <div>
     <div className="usa-grid dashboard header">
       <div className="usa-width-two-thirds">
@@ -49,7 +49,8 @@ const SiteList = ({ storeState }) =>
           className="usa-button-big pull-right icon icon-new icon-white"
           href={'/sites/new'}
           alt="Add a new website"
-          text="Add Website" />
+          text="Add Website"
+        />
       </div>
     </div>
     <AlertBanner {...storeState.alert} />
@@ -60,11 +61,12 @@ const SiteList = ({ storeState }) =>
           className="usa-button-big pull-right icon icon-new icon-white"
           href={'/sites/new'}
           alt="Add a new website"
-          text="Add Website" />
+          text="Add Website"
+        />
       </div>
     </div>
-  </div>
+  </div>;
 
 SiteList.propTypes = propTypes;
 
-export default SiteList;
+export default connect(state => state)(SiteList);

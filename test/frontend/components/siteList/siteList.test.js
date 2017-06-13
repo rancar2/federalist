@@ -24,7 +24,7 @@ describe('<SiteList />', () => {
     Fixture = proxyquire('../../../../frontend/components/siteList/siteList', {
       './siteListItem': SiteListItem,
       '../linkButton': LinkButton
-    }).default;
+    }).SiteList;
   });
 
   describe('when sites are being loaded', () => {
